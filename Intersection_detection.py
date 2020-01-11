@@ -8,21 +8,23 @@ Created on Thu Jan  9 22:34:52 2020
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
-img = cv2.imread('track_3.jpg')
-#im = cv2.resize(img, (960, 540))
+
+img = cv2.imread('track-iot-bot-2x2-red-blue.jpg')
+height, width, channels = img.shape
+#print(height,"x",width,channels)
+img = cv2.resize(img, (804,797)) #this size fitted perfactly with parametar's values
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 blur = cv2.medianBlur(gray, 5)
-edges = cv2.Canny(gray,50,150,apertureSize = 3)
+edges = cv2.Canny(blur,50,150,apertureSize = 3)
 adapt_type = cv2.ADAPTIVE_THRESH_GAUSSIAN_C
 thresh_type = cv2.THRESH_BINARY_INV
-bin_img = cv2.adaptiveThreshold(edges, 255, adapt_type,thresh_type, 11, 2)
+bin_img = cv2.adaptiveThreshold(edges, 255, adapt_type,thresh_type, 11, 2) # image processed 
 
 rho, theta, thresh = 1, np.pi/180, 500
-lines = cv2.HoughLines(bin_img, rho, theta, thresh)
+lines = cv2.HoughLines(bin_img, rho, theta, thresh) #all the lines with slope and rho
 
 from collections import defaultdict
-def segment_by_angle_kmeans(lines, k=3, **kwargs):
+def segment_by_angle_kmeans(lines, k=2, **kwargs):  # k=2 for two colour
     """Groups lines based on angle with k-means.
 
     Uses k-means on the coordinates of the angle on the unit circle 
@@ -32,7 +34,7 @@ def segment_by_angle_kmeans(lines, k=3, **kwargs):
     # Define criteria = (type, max_iter, epsilon)
     default_criteria_type = cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER
     criteria = kwargs.get('criteria', (default_criteria_type, 10, 0.1))
-    flags = kwargs.get('flags', cv2.KMEANS_RANDOM_CENTERS)
+    flags = kwargs.get('flags', cv2.KMEANS_PP_CENTERS)
     attempts = kwargs.get('attempts', 10)
 
     # returns angles in [0, pi] in radians
@@ -88,29 +90,29 @@ def segmented_intersections(lines):
 
 point=[]
 y_list=[]
-intersections = segmented_intersections(segmented)
+intersections = segmented_intersections(segmented) #get the intersection points
 count=0
 for intr in intersections:
-    point.append(intr[0])
-    #cv2.circle(img, (int(intr[0][0]), int(intr[0][1])), 1, (255, 0, 0),3)
+    if 700>=intr[0][0]>=130 and 700>=intr[0][1]>=130 :
+        point.append(intr[0])
+        #cv2.circle(img, (int(intr[0][0]), int(intr[0][1])), 1, (255, 0, 0),3)
 font = cv2.FONT_HERSHEY_SIMPLEX 
 poi=np.asarray(point)
 #plt.scatter(poi[:, 0], poi[:, 1])
-kmeans = KMeans(n_clusters=17)
+startpts=np.array([[160,140],[410,140],[660,140],[280,250],[520,260],[160,390],[410,390],[660,390],[280,510],[520,510],[160,640],[410,640],[660,640]])
+kmeans = KMeans(n_clusters=13,init=startpts,n_init=1)
 kmeans.fit(point)
 cent=kmeans.cluster_centers_
 #plt.scatter(cent[:, 0], cent[:, 1], c='black', s=200, alpha=0.5)
 
 poi=[]
-for p in cent:
-    # collect actual node location
-    if 900>=p[0]>=130 and 900>=p[1]>=130: #by testing the graph position is between 130x700
-        poi.append(p)
+
 i=0
-for c in poi:
+for c in cent:
+    
     cv2.circle(img, (int(c[0]), int(c[1])), 30, (0, 0, 255),3)
-    img = cv2.putText(img, str(i), (int(c[0]), int(c[1])), font,  
-                       1, (255, 0, 0), 2, cv2.LINE_AA)
+    img = cv2.putText(img, str(i), (int(c[0]+30), int(c[1]+5)), font,  
+                       2, (255, 0, 0), 2, cv2.LINE_AA)
     i+=1
 print("Total Node: ",i)
 im = cv2.resize(img, (540, 540))
