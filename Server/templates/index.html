@@ -1,0 +1,60 @@
+{% load staticfiles %}
+
+{% include "header.html" %}
+<body>
+  {% include "navbar.html" %}
+	<div class="container">   
+	    <div  >
+	        <h1 class="red text-center" style="margin-bottom:40px;margin-top: 40px;">List of Bots</h1>
+	        <div class="container-1200px row landing-section" style="margin-bottom: 20px;">
+	        	<div class="col-3 bold-text">
+	        		Bot Name
+	        	</div>
+	        	<div class="col-3 bold-text">
+	        		Current position
+	        	</div>  
+	        	<div class="col-3 bold-text">
+	        		Enter destination
+	        	</div>  
+	        </div>
+	        <!-- Loop this -->
+	        <form class="container-1200px row landing-section" style="margin-bottom: 20px;">
+	        	<div class="col-3">
+	        		Bot 1
+	        	</div>
+	        	<div class="col-3">
+	        		Node 3
+	        	</div>
+	        	<div class="col-3">
+	        		<div class="form-group">
+	        			<input class="form-control" type="number" placeholder="Destination">
+	        		</div>
+	        	</div>
+	        	<div class="col-3">
+	        		<div class="form-group">
+	        			<input class="theme-button dark-grey-background green-background-hover white" type="submit" value="Enter">
+	        		</div>
+	        	</div>    
+	        </form>
+	        <form class="container-1200px row landing-section" style="margin-bottom: 20px;">
+	        	<div class="col-3">
+	        		Bot 2
+	        	</div>
+	        	<div class="col-3">
+	        		Node 4
+	        	</div>
+	        	<div class="col-3">
+	        		<div class="form-group">
+	        			<input class="form-control" type="number" placeholder="Destination">
+	        		</div>
+	        	</div>
+	        	<div class="col-3">
+	        		<div class="form-group">
+	        			<input class="theme-button dark-grey-background green-background-hover white" type="submit" value="Enter">
+	        		</div>
+	        	</div>    
+	        </form>
+	    </div>
+
+	</div>      
+</body>
