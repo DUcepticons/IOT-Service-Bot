@@ -53,14 +53,17 @@ a:hover
 
 .theme-button
 {
-    border-radius:0px;
-    padding:20px;
-    font-size:15px;
-    text-transform:uppercase;
-    text-decoration:none!important;
-    margin-top:30px;
-    margin-bottom:30px;
-    letter-spacing:3px;
+    border-radius: 2px;
+    padding: 6px 10px;
+    font-size: 15px;
+    text-transform: uppercase;
+    text-decoration: none!important;
+    letter-spacing: 3px;
+    border: 0px;
+    -webkit-transition: background-color 0.2s ease-out;
+    -moz-transition: background-color 0.2s ease-out;
+    -o-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
 }
 
 
