@@ -1,0 +1,94 @@
+.green, .green-hover:hover
+{
+    color:#94D1BE;
+}
+
+.green-background, .green-background-hover:hover
+{
+    background-color:#94D1BE;
+}
+
+.green-border,.green-border-hover:hover
+{
+    border: 2px solid #94D1BE;
+}
+
+.red, .red-hover:hover
+{
+    color:#d03516;
+}
+
+.red-background, .red-background-hover:hover
+{
+    background-color:#d03516;
+}
+
+.red-border,.red-border-hover:hover
+{
+    border: 2px solid #d03516;
+}
+
+
+.black-overlay:before
+{
+    background-color:rgba(0,0,0,0.6);
+}
+
+
+
+
+
+
+
+.white, .white-hover:hover
+{
+    color:#fff;
+}
+
+
+.white-background, .white-background-hover:hover
+{
+    background-color:#fff;
+}
+
+.white-border,.white-border-hover:hover
+{
+    border: 2px solid #fff;
+}
+
+.white-opaque-border,.white-opaque-border-hover:hover
+{
+    border: 2px solid rgba(255,255,255,0.5);
+}
+
+
+
+
+
+
+.light-grey, .light-grey-hover:hover
+{
+    color:#e8e8e8;
+}
+
+
+.light-grey-background, .light-grey-background-hover:hover
+{
+    background-color:#e8e8e8;
+}
+
+
+.dark-grey, .dark-grey-hover:hover
+{
+    color:#191919;
+}
+
+
+.dark-grey-background, .dark-grey-background-hover:hover
+{
+    background-color:#191919;
+}
+
+
+
+

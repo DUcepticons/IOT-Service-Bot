@@ -1,0 +1,129 @@
+<style>
+/* Icon 1 */
+
+.animated-icon3 {
+width: 30px;
+height: 20px;
+position: relative;
+margin: 0px;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .5s ease-in-out;
+-moz-transition: .5s ease-in-out;
+-o-transition: .5s ease-in-out;
+transition: .5s ease-in-out;
+cursor: pointer;
+}
+
+.animated-icon3 span {
+display: block;
+position: absolute;
+height: 3px;
+width: 100%;
+border-radius: 9px;
+opacity: 1;
+left: 0;
+-webkit-transform: rotate(0deg);
+-moz-transform: rotate(0deg);
+-o-transform: rotate(0deg);
+transform: rotate(0deg);
+-webkit-transition: .25s ease-in-out;
+-moz-transition: .25s ease-in-out;
+-o-transition: .25s ease-in-out;
+transition: .25s ease-in-out;
+}
+
+
+.animated-icon3 span {
+background: #f3e5f5;
+}
+
+
+.animated-icon3 span:nth-child(1) {
+top: 0px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animated-icon3 span:nth-child(2) {
+top: 10px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animated-icon3 span:nth-child(3) {
+top: 20px;
+-webkit-transform-origin: left center;
+-moz-transform-origin: left center;
+-o-transform-origin: left center;
+transform-origin: left center;
+}
+
+.animated-icon3.open span:nth-child(1) {
+-webkit-transform: rotate(45deg);
+-moz-transform: rotate(45deg);
+-o-transform: rotate(45deg);
+transform: rotate(45deg);
+top: 0px;
+left: 8px;
+}
+
+.animated-icon3.open span:nth-child(2) {
+width: 0%;
+opacity: 0;
+}
+
+.animated-icon3.open span:nth-child(3) {
+-webkit-transform: rotate(-45deg);
+-moz-transform: rotate(-45deg);
+-o-transform: rotate(-45deg);
+transform: rotate(-45deg);
+top: 21px;
+left: 8px;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function () {
+
+  $('.third-button').on('click', function () {
+
+    $('.animated-icon3').toggleClass('open');
+  });
+});
+
+</script>
+
+<nav class="navbar navbar-expand-lg sticky-top green-background">
+
+
+  <button class="navbar-toggler third-button" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="animated-icon3"><span></span><span></span><span></span></div>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link dark-grey bold-text" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <!--
+      <li class="nav-item dropdown">
+        <a class="nav-link dark-grey bold-text dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Select Floor
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {% for number in floors %}
+          <a class="dropdown-item" href="/floor/{{number}}">Floor{{number}}</a>
+          {% endfor %}
+          
+        </div>
+      </li>
+      -->
+    </ul>
+  </div>
+</nav>
