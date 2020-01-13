@@ -6,5 +6,5 @@ from numpy import unique
 
 def homepage(request):
 	
-	return render(request=request,template_name="index.html",
-				  context={})
+	return render(request=request,template_name="index.html"
+				  )
