@@ -11,42 +11,14 @@ import cv2
 import numpy as np
 from sklearn.cluster import KMeans
 from collections import deque, namedtuple
-
-# we'll use infinity as a default distance to nodes.
-inf = float('inf')
-Edge = namedtuple('Edge', 'start, end, cost')
-
-img = cv2.imread('./Tracks/track-iot-bot-2x2-red-blue.jpg')
-#print(height,"x",width,channels)
-img = cv2.resize(img, (804,797)) #this size fitted perfactly with parametar's values 804x797
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-blur = cv2.medianBlur(gray, 5)
-edges = cv2.Canny(blur,50,150,apertureSize = 3)
-adapt_type = cv2.ADAPTIVE_THRESH_GAUSSIAN_C
-thresh_type = cv2.THRESH_BINARY_INV
-bin_img = cv2.adaptiveThreshold(edges, 255, adapt_type,thresh_type, 11, 2) # image processed 
-
-
-graph=[]
-#list of tuple will have the distance between object and the nodes 
-cal=[]
-data=[]
-for i in range(1,14):
-    data.append((1000,i))     #(distance,node no)
-    cal.append((1000,i))
-
-
-Node=[]
-for j in range(0,3):
-    Node.append([1000,j,j])
-#print(cal)
-#pair=[(0,1),(0,3)]
-
-
-
-rho, theta, thresh = 1, np.pi/180, 500
-lines = cv2.HoughLines(bin_img, rho, theta, thresh) #all the lines with slope and rho
 from collections import defaultdict
+
+camera = cv2.VideoCapture("http://192.168.0.101:4747/mjpegfeed?640x480'")
+inf = float('inf')
+Edge = namedtuple('Edge', 'start, end, cost') 
+ 
+
+
 def segment_by_angle_kmeans(lines, k=2, **kwargs):  # k=2 for two colour
     """Groups lines based on angle with k-means.
 
@@ -77,7 +49,7 @@ def segment_by_angle_kmeans(lines, k=2, **kwargs):  # k=2 for two colour
     segmented = list(segmented.values())
     return segmented
 
-segmented = segment_by_angle_kmeans(lines)
+
 
 def intersection(line1, line2):
     """Finds the intersection of two lines given in Hesse normal form.
@@ -302,61 +274,110 @@ class Graph:
 
 
 
-      
-    #for l in range(0,)
-    #cost.append(object_position(nearest_node[0],nearest_node[1],position))
-
-point=[]
-intersections = segmented_intersections(segmented) #get the intersection points
-count=0
-for intr in intersections:
-    if 700>=intr[0][0]>=130 and 700>=intr[0][1]>=130 :
-        point.append(intr[0])
-        #cv2.circle(img, (int(intr[0][0]), int(intr[0][1])), 1, (255, 0, 0),3)
-font = cv2.FONT_HERSHEY_SIMPLEX 
-poi=np.asarray(point)
-#plt.scatter(poi[:, 0], poi[:, 1])
-startpts=np.array([[160,140],[410,140],[660,140],[280,250],[520,260],[160,390],[410,390],[660,390],[280,510],[520,510],[160,640],[410,640],[660,640]])
-kmeans = KMeans(n_clusters=13,init=startpts,n_init=1)
-kmeans.fit(point)
-cent=kmeans.cluster_centers_
-#plt.scatter(cent[:, 0], cent[:, 1], c='black', s=200, alpha=0.5)
 
 
-i=0
-for c in cent:
-    i+=1
-    cv2.circle(img, (int(c[0]), int(c[1])), 30, (0, 0, 255),3)
-    img = cv2.putText(img, str(i), (int(c[0]+30), int(c[1]+5)), font,  
-                       2, (255, 0, 0), 2, cv2.LINE_AA)
 
-po=[119.5,189.5]
-#print("Connection: ",node_assign(po,cent))
-#print(connection(9))
-print("Total Node: ",i)
+# otherwise, grab a reference to the video file
+while True:
+    # grab the current frame
+    (grabbed, frame) = camera.read()
 
-for index in range(1,14):
-    arr=connection(index)
-    for d in arr:
-        graph.append((str(index),str(d),distance(cent[index-1],cent[d-1])))
-
-#print(graph)
-N=node_assign(po,cent)
-Nl=list(N)
-print(Nl)
-graph.remove((str(Nl[1]),str(Nl[0]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
-graph.remove((str(Nl[0]),str(Nl[1]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
-#print(graph)
-
-final_graph = Graph(graph)
-
-
-#print(final_graph.dijkstra("1", "11"))
-
-for i in final_graph.dijkstra("1", "11"):
-    print( i)
-cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
-im = cv2.resize(img, (540, 540))
-cv2.imshow('image',im)
-cv2.waitKey(0)
+    #frame=cv2.resize(frame,(600,600))
+    
+    
+    img = frame
+    #print(height,"x",width,channels)
+    img = cv2.resize(img, (804,797)) #this size fitted perfactly with parametar's values 804x797
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blur = cv2.medianBlur(gray, 5)
+    edges = cv2.Canny(blur,50,150,apertureSize = 3)
+    adapt_type = cv2.ADAPTIVE_THRESH_GAUSSIAN_C
+    thresh_type = cv2.THRESH_BINARY_INV
+    bin_img = cv2.adaptiveThreshold(edges, 255, adapt_type,thresh_type, 11, 2) # image processed 
+    
+    
+    graph=[]
+    #list of tuple will have the distance between object and the nodes 
+    cal=[]
+    data=[]
+    for i in range(1,14):
+        data.append((1000,i))     #(distance,node no)
+        cal.append((1000,i))
+    
+    
+    Node=[]
+    for j in range(0,3):
+        Node.append([1000,j,j])
+    #print(cal)
+    #pair=[(0,1),(0,3)]
+    
+    
+    
+    rho, theta, thresh = 1, np.pi/180, 500
+    lines = cv2.HoughLines(bin_img, rho, theta, thresh) #all the lines with slope and rho
+    segmented = segment_by_angle_kmeans(lines)
+    
+    
+    
+    
+          
+        #for l in range(0,)
+        #cost.append(object_position(nearest_node[0],nearest_node[1],position))
+    
+    point=[]
+    intersections = segmented_intersections(segmented) #get the intersection points
+    count=0
+    for intr in intersections:
+        if 700>=intr[0][0]>=130 and 700>=intr[0][1]>=130 :
+            point.append(intr[0])
+            #cv2.circle(img, (int(intr[0][0]), int(intr[0][1])), 1, (255, 0, 0),3)
+    font = cv2.FONT_HERSHEY_SIMPLEX 
+    poi=np.asarray(point)
+    #plt.scatter(poi[:, 0], poi[:, 1])
+    startpts=np.array([[160,140],[410,140],[660,140],[280,250],[520,260],[160,390],[410,390],[660,390],[280,510],[520,510],[160,640],[410,640],[660,640]])
+    kmeans = KMeans(n_clusters=13,init=startpts,n_init=1)
+    kmeans.fit(point)
+    cent=kmeans.cluster_centers_
+    #plt.scatter(cent[:, 0], cent[:, 1], c='black', s=200, alpha=0.5)
+    
+    
+    i=0
+    for c in cent:
+        i+=1
+        cv2.circle(img, (int(c[0]), int(c[1])), 30, (0, 0, 255),3)
+        img = cv2.putText(img, str(i), (int(c[0]+30), int(c[1]+5)), font,  
+                           2, (255, 0, 0), 2, cv2.LINE_AA)
+    
+    po=[119.5,189.5]
+    #print("Connection: ",node_assign(po,cent))
+    #print(connection(9))
+    print("Total Node: ",i)
+    
+    for index in range(1,14):
+        arr=connection(index)
+        for d in arr:
+            graph.append((str(index),str(d),distance(cent[index-1],cent[d-1])))
+    
+    #print(graph)
+    N=node_assign(po,cent)
+    Nl=list(N)
+    print(Nl)
+    graph.remove((str(Nl[1]),str(Nl[0]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
+    #graph.remove((str(Nl[0]),str(Nl[1]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
+    #print(graph)
+    
+    final_graph = Graph(graph)
+    
+    
+    #print(final_graph.dijkstra("1", "11"))
+    
+    for i in final_graph.dijkstra("1", "11"):
+        print( i)
+    cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
+    im = cv2.resize(img, (540, 540))
+    cv2.imshow('image',im)
+        
+ 
+# cleanup the camera and close any open windows
+camera.release()
 cv2.destroyAllWindows()
