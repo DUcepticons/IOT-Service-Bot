@@ -4,6 +4,8 @@ from django.template import Context, loader
 from django.views.decorators.csrf import csrf_exempt
 from numpy import unique
 import urllib.request
+from . import djikstra 
+
 root_url = "http://192.168.0.102"
 
 def sendRequest(url):
@@ -13,7 +15,10 @@ def sendRequest(url):
 def homepage(request):
 	if request.method == 'POST':
 		destination = request.POST.get('destination','')
-		sendRequest(root_url+'/'+destination)
+		path = djikstra.dostuff("a",destination)
+
+		for p in path:
+			sendRequest(root_url+'/'+p)
 		#urllib.request.urlopen(root_url).read()
 	return render(request=request,template_name="index.html"
 				  )
