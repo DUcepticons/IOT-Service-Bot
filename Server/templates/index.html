@@ -21,7 +21,7 @@
 	        	</div>  
 	        </div>
 	        <!-- Loop this -->
-	        <form class="container-1200px row landing-section" style="margin-bottom: 20px;">
+	        <form class="container-1200px row landing-section" style="margin-bottom: 20px;" action ="" method = "POST"> {% csrf_token %}
 	        	<div class="col-2">
 	        		Bot 1
 	        	</div>
@@ -30,7 +30,7 @@
 	        	</div>
 	        	<div class="col-2">
 	        		<div class="form-group">
-	        			<input class="form-control" type="number" placeholder="Destination">
+	        			<input class="form-control" type="number" placeholder="Destination" name="destination">
 	        		</div>
 	        	</div>
 	        	<div class="col-2">
