@@ -319,13 +319,13 @@ def djikstra(img,object_point,destination):
                 dif_x=x2-x1
                 dif_y=y2-y1
                 if(dif_x>50 and -50<dif_y<50):
-                    mov.append("n")
+                    mov.append("nn")
                 elif(dif_y>50 and -50<dif_x<50):
-                    mov.append("e")
+                    mov.append("ee")
                 elif(dif_x<-50 and -50<dif_y<50):
-                    mov.append("s")
+                    mov.append("ss")
                 elif(dif_y<-50 and -50<dif_x<50):
-                    mov.append("w")
+                    mov.append("ww")
                 elif(dif_y>50 and dif_x>50):
                     mov.append("ne")
                 elif(dif_y<-50 and dif_x>50):

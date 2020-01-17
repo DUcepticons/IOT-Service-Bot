@@ -18,7 +18,7 @@
 const int motorPin1 = 14,motorPin2 = 12;        //right motor
 const int motorPin3 = 13,motorPin4 = 15;       //left motor
 
-int rotateDelay=100, forwardDelay=1000;
+int rotateDelay=3300, forwardDelay=10000;
 void setup(){
   Serial.begin(9600);
   start("Epitapher Thanda","Qawsedrf"); // Wifi details connec to
@@ -49,12 +49,29 @@ void loop(){
   else if (getPath()=="/ee")
   {
      rotateRight(rotateDelay);
-     goForward(1000);
+     goForward(forwardDelay);
      brake();
   }
+
+  else if (getPath()=="/ne")
+  {
+     rotateRight(rotateDelay/2);
+     goForward(forwardDelay/1.41421356);
+    brake();
+  }
+
+
+  else if (getPath()=="/nw")
+  {
+     rotateLeft(rotateDelay/2);
+     goForward(forwardDelay/1.41421356);
+     brake();
+  }
+
+
   
   returnThisStr("GotIt");
-  goForward(forwardDelay);
+
 
 
 }
@@ -62,7 +79,7 @@ void loop(){
 
 void goForward(int delayTime)
 {
-  analogWrite(motorPin1, 255);
+  analogWrite(motorPin1, 220);
   analogWrite(motorPin2 , 0);
   analogWrite(motorPin3,255);
   analogWrite(motorPin4, 0);
@@ -85,7 +102,7 @@ void rotateLeft(int delayTime)
 void rotateRight(int delayTime)
 {
   analogWrite(motorPin1, 0);
-  analogWrite(motorPin2 , 200);
+  analogWrite(motorPin2 , 180);
   analogWrite(motorPin3, 200);
   analogWrite(motorPin4, 0);
   delay(delayTime);
@@ -94,15 +111,12 @@ void rotateRight(int delayTime)
 }
 
 
-void brake(int delayTime)
+void brake()
 {
   analogWrite(motorPin1, 0);
   analogWrite(motorPin2 , 0);
   analogWrite(motorPin3, 0);
   analogWrite(motorPin4, 0);
-  delay(delayTime);
+  //delay(delayTime);
 
 }
-
-
-
