@@ -13,7 +13,7 @@ from sklearn.cluster import KMeans
 from collections import deque, namedtuple
 
 
-def djikstra(img,destination):
+def djikstra(img,object_point,destination):
 
     # we'll use infinity as a default distance to nodes.
     inf = float('inf')
@@ -187,42 +187,46 @@ def djikstra(img,destination):
                 
     
         def node_assign(position,node):
-            copied_data=data[:]
-            k=0
-            nearest_node=[]
-            for j in node:
-                n=list(copied_data[k])
-                n[1]=k+1
-                n[0]=distance(j,position)
-                copied_data[k]=tuple(n)
-                k+=1
-            for i in range(0,4):
-                minimum=min(copied_data)
-                mini=list(minimum)
-                #print(minimum)
-                copied_data.remove((mini[0],mini[1]))
-                nearest_node.append(mini[1])
-                  #print(mini[0])
-                #print(nearest_node)
-            node_no=Node[:]
-            dist=abs(object_position(nearest_node[0],nearest_node[1],position))
-            node_no[0][0]=dist
-            node_no[0][1]=nearest_node[0]
-            node_no[0][2]=nearest_node[1]
-    
-            dist=abs(object_position(nearest_node[0],nearest_node[2],position))
-            node_no[1][0]=dist
-            node_no[1][1]=nearest_node[0]
-            node_no[1][2]=nearest_node[2]
-    
-            dist=abs(object_position(nearest_node[0],nearest_node[3],position))
-            node_no[2][0]=dist
-            node_no[2][1]=nearest_node[0]
-            node_no[2][2]=nearest_node[3]
-           # print(node_no)
-            min_node=min(node_no)
-            #print(min_node)
-            return (min_node[1],min_node[2])
+            if 700<=intr[0][0]<=130 and 700<=intr[0][1]<=130:
+                pass
+            else:
+                
+                copied_data=data[:]
+                k=0
+                nearest_node=[]
+                for j in node:
+                    n=list(copied_data[k])
+                    n[1]=k+1
+                    n[0]=distance(j,position)
+                    copied_data[k]=tuple(n)
+                    k+=1
+                for i in range(0,4):
+                    minimum=min(copied_data)
+                    mini=list(minimum)
+                    #print(minimum)
+                    copied_data.remove((mini[0],mini[1]))
+                    nearest_node.append(mini[1])
+                      #print(mini[0])
+                    #print(nearest_node)
+                node_no=Node[:]
+                dist=abs(object_position(nearest_node[0],nearest_node[1],position))
+                node_no[0][0]=dist
+                node_no[0][1]=nearest_node[0]
+                node_no[0][2]=nearest_node[1]
+        
+                dist=abs(object_position(nearest_node[0],nearest_node[2],position))
+                node_no[1][0]=dist
+                node_no[1][1]=nearest_node[0]
+                node_no[1][2]=nearest_node[2]
+        
+                dist=abs(object_position(nearest_node[0],nearest_node[3],position))
+                node_no[2][0]=dist
+                node_no[2][1]=nearest_node[0]
+                node_no[2][2]=nearest_node[3]
+               # print(node_no)
+                min_node=min(node_no)
+                #print(min_node)
+                return (min_node[1],min_node[2])
         def make_edge(start, end, cost=1):
           return Edge(start, end, cost)
     
@@ -334,7 +338,7 @@ def djikstra(img,destination):
             img = cv2.putText(img, str(i), (int(c[0]+30), int(c[1]+5)), font,  
                                2, (255, 0, 0), 2, cv2.LINE_AA)
     
-        po=[119.5,189.5]
+        po=object_point
         #print("Connection: ",node_assign(po,cent))
         #print(connection(9))
         print("Total Node: ",i)
@@ -346,19 +350,21 @@ def djikstra(img,destination):
     
         #print(graph)
         N=node_assign(po,cent)
-        Nl=list(N)
-        print(Nl)
-        graph.remove((str(Nl[1]),str(Nl[0]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
-        graph.remove((str(Nl[0]),str(Nl[1]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
-        #print(graph)
-    
-        final_graph = Graph(graph)
-    
-    
-        #print(final_graph.dijkstra("1", "11"))
-        result = []
-        for i in final_graph.dijkstra("1", destination):
-            result.append(i)
-        cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
-        im = cv2.resize(img, (540, 540))
-        return im,result
+        if N is not None:
+            
+            Nl=list(N)
+            print(Nl)
+            graph.remove((str(Nl[1]),str(Nl[0]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
+            graph.remove((str(Nl[0]),str(Nl[1]),distance(cent[Nl[0]-1],cent[Nl[1]-1])))
+            #print(graph)
+        
+            final_graph = Graph(graph)
+        
+        
+            #print(final_graph.dijkstra("1", "11"))
+            result = []
+            for i in final_graph.dijkstra("1", destination):
+                result.append(i)
+            cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
+            im = cv2.resize(img, (540, 540))
+            return im,result
