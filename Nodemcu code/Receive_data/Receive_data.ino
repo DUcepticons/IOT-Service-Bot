@@ -3,7 +3,7 @@
  * https://github.com/Kebablord 
  *
  * It's a ESP management through Python example
- * It simply fetches the path from the request
+ * It simply fetches the path from the request/
  * Path is: https://example.com/this -> "/this"
  * You can command your esp through python with request paths
  * You can read the path with getPath() function
@@ -16,7 +16,7 @@
 
 void setup(){
   Serial.begin(9600);
-  start("Niloy","1q2w3e4r5t6Y"); // Wifi details connec to
+  start("Epitapher Thanda","Qawsedrf"); // Wifi details connec to
 
   pinMode(LED,OUTPUT);
 }
