@@ -18,6 +18,7 @@ inf = float('inf')
 Edge = namedtuple('Edge', 'start, end, cost')
 
 img = cv2.imread('track.jpg')
+image=cv2.imread('track-iot-bot-2x2-red-blue.jpg')
 #print(height,"x",width,channels)
 img = cv2.resize(img, (804,797)) #this size fitted perfactly with parametar's values 804x797
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -336,7 +337,7 @@ if lines is not None:
         img = cv2.putText(img, str(i), (int(c[0]+30), int(c[1]+5)), font,  
                            2, (255, 0, 0), 2, cv2.LINE_AA)
     
-    po=colour.obstacle()
+    po=colour.obstacle(image)
     #print("Connection: ",node_assign(po,cent))
     #print(connection(9))
     print("Total Node: ",i)
