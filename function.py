@@ -308,9 +308,34 @@ def djikstra(img,object_point,destination):
                 if path:
                     path.appendleft(current_vertex)
                 return path
-    
-    
-    
+        
+        def movement(res):
+            mov=[]
+            for i in range(len(res)-1):
+                x1=cent[int(res[i])-1][0]
+                y1=cent[int(res[i])-1][1]
+                x2=cent[int(res[i+1])-1][0]
+                y2=cent[int(res[i+1])-1][1]
+                dif_x=x2-x1
+                dif_y=y2-y1
+                if(dif_x>50 and -50<dif_y<50):
+                    mov.append("n")
+                elif(dif_y>50 and -50<dif_x<50):
+                    mov.append("e")
+                elif(dif_x<-50 and -50<dif_y<50):
+                    mov.append("s")
+                elif(dif_y<-50 and -50<dif_x<50):
+                    mov.append("w")
+                elif(dif_y>50 and dif_x>50):
+                    mov.append("ne")
+                elif(dif_y<-50 and dif_x>50):
+                    mov.append("nw")
+                elif(dif_y>50 and dif_x<-50):
+                    mov.append("se")
+                elif(dif_y<-50 and dif_x<-50):
+                    mov.append("sw")
+            return mov
+                
     
               
             #for l in range(0,)
@@ -363,8 +388,25 @@ def djikstra(img,object_point,destination):
         
             #print(final_graph.dijkstra("1", "11"))
             result = []
-            for i in final_graph.dijkstra("1", destination):
+            count=0
+            action_list=["n","ne","e","se","s","sw","w","nw"]
+            solution=[]
+            for i in final_graph.dijkstra("1", "3"):
                 result.append(i)
+            res_mov=movement(result)
+            for r in range(len(res_mov)):
+                if count==0:
+                    solution.append(res_mov[r])
+                    count+=1
+                    pass
+                else:
+                    pre_action=res_mov[r-1]
+                    current_action=res_mov[r]
+                    pre_ind=action_list.index(pre_action)
+                    current_ind=action_list.index(current_action)
+                    dif=current_ind-pre_ind
+                    solution.append(action_list[dif])
+            print(solution)
             cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
             im = cv2.resize(img, (540, 540))
-            return im,result
+            return im,solution
