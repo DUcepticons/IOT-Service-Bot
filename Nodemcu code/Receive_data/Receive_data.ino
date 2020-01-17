@@ -35,12 +35,14 @@ void loop(){
   if (getPath()=="/nn")
   {
     goForward(forwardDelay);
+    brake();
   }
 
   else if (getPath()=="/ww")
   {
      rotateLeft(rotateDelay);
      goForward(forwardDelay);
+    brake();
   }
 
 
@@ -48,6 +50,7 @@ void loop(){
   {
      rotateRight(rotateDelay);
      goForward(1000);
+     brake();
   }
   
   returnThisStr("GotIt");

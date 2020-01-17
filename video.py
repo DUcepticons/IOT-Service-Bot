@@ -21,7 +21,7 @@ approx = []
 #scale of the text
 scale = 2
 #camera
-camera = cv2.VideoCapture("http://192.168.0.3:4747/mjpegfeed?900x900'")
+camera = cv2.VideoCapture("http://192.168.0.9:4747/mjpegfeed?900x900'")
 #img = cv2.resize(img, (804,797))
 
 # Define the codec and create VideoWriter object
@@ -44,9 +44,9 @@ while True:
     (grabbed, frame) = camera.read()
     
     # define the lower and upper boundaries of the colors in the HSV color space
-    lower = {'blue':(97, 100, 117), 'orange':(0, 50, 80)} #assign new item lower['blue'] = (93, 10, 0)
-    upper = {'blue':(117,255,255), 'orange':(20,255,255)}
-     
+    lower = { 'green':(40, 100, 50), 'blue':(97, 100, 117)} #assign new item lower['blue'] = (93, 10, 0) 'yellow':(54,255,255)
+    upper = {'green':(80,255,255), 'blue':(117,255,255)}
+    colors = {'red':(0,0,255), 'green':(0,255,0), 'blue':(255,0,0)} 
     # define standard colors for circle around the object
     #colors = {'red':(0,0,255), 'green':(0,255,0), 'blue':(255,0,0), 'yellow':(0, 255, 217), 'orange':(0,140,255)}
      
@@ -147,8 +147,19 @@ while True:
                 #cv2.putText(frame,key , (int(x-radius),int(y-radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,colors[key],2)
                 if key=='blue':
                     
-                    im,result = function.djikstra(template,[x,y],"11")
-                    time.sleep(4)
+                    #im,result = function.djikstra(template,[x,y],"11")
+                    cv2.circle(frame, (int(x), int(y)), int(radius), colors[key], 2)
+                    cv2.putText(frame,key , (int(x-radius),int(y-radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,colors[key],2)
+                    print(x,y)
+    cv2.imshow("Frame", frame)
+   
+    key = cv2.waitKey(1) & 0xFF
+    # if the 'q' key is pressed, stop the loop
+    if key == ord("q"):
+        break
+
+camera.release()
+cv2.destroyAllWindows()
                 #Capture frame-by-frame
     #Display the resulting frame 
 # show the frame to our screen
