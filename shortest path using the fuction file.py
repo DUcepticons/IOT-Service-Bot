@@ -12,10 +12,10 @@ def sendRequest(url):
 
 
 img = cv2.imread('./Tracks/track-iot-bot-2x2-red-blue.jpg')
-im,path = function.djikstra(img,"11")
+im,path = function.djikstra(img,[450,450],"10")
 print(path)
-for p in path:
-	sendRequest(root_url+'/'+p)
+#for p in path:
+#	sendRequest(root_url+'/'+p)
 	
 cv2.imshow('image',im)
 

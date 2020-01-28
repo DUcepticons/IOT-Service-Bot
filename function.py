@@ -319,13 +319,13 @@ def djikstra(img,object_point,destination):
                 dif_x=x2-x1
                 dif_y=y2-y1
                 if(dif_x>50 and -50<dif_y<50):
-                    mov.append("n")
+                    mov.append("nn")
                 elif(dif_y>50 and -50<dif_x<50):
-                    mov.append("e")
+                    mov.append("ee")
                 elif(dif_x<-50 and -50<dif_y<50):
-                    mov.append("s")
+                    mov.append("ss")
                 elif(dif_y<-50 and -50<dif_x<50):
-                    mov.append("w")
+                    mov.append("ww")
                 elif(dif_y>50 and dif_x>50):
                     mov.append("ne")
                 elif(dif_y<-50 and dif_x>50):
@@ -389,9 +389,9 @@ def djikstra(img,object_point,destination):
             #print(final_graph.dijkstra("1", "11"))
             result = []
             count=0
-            action_list=["n","ne","e","se","s","sw","w","nw"]
+            action_list=["nn","ne","ee","se","ss","sw","ww","nw"]
             solution=[]
-            for i in final_graph.dijkstra("1", "3"):
+            for i in final_graph.dijkstra("1", destination):
                 result.append(i)
             res_mov=movement(result)
             for r in range(len(res_mov)):
@@ -406,7 +406,7 @@ def djikstra(img,object_point,destination):
                     current_ind=action_list.index(current_action)
                     dif=current_ind-pre_ind
                     solution.append(action_list[dif])
-            print(solution)
+            #print(solution)
             cv2.circle(img, (int(po[0]), int(po[1])), 20, (0, 255, 0),3)
             im = cv2.resize(img, (540, 540))
             return im,solution
