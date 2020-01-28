@@ -21,7 +21,7 @@ approx = []
 #scale of the text
 scale = 2
 #camera
-camera = cv2.VideoCapture("http://192.168.0.9:4747/mjpegfeed?900x900'")
+camera = cv2.VideoCapture("http://192.168.0.3:4747/mjpegfeed?'804x797")
 #img = cv2.resize(img, (804,797))
 
 # Define the codec and create VideoWriter object
@@ -56,7 +56,7 @@ while True:
     
     
     
-    frame = imutils.resize(frame, height=804,width=797)
+    frame = imutils.resize(frame, height=904,width=897)
      
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
@@ -150,7 +150,7 @@ while True:
                     #im,result = function.djikstra(template,[x,y],"11")
                     cv2.circle(frame, (int(x), int(y)), int(radius), colors[key], 2)
                     cv2.putText(frame,key , (int(x-radius),int(y-radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,colors[key],2)
-                    print(x,y)
+                    print(x+30,y+60)
     cv2.imshow("Frame", frame)
    
     key = cv2.waitKey(1) & 0xFF
